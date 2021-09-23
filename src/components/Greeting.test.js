@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import Greeting from "./greeting";
 
 describe("Greeting component", () => {
@@ -14,9 +15,39 @@ describe("Greeting component", () => {
     expect(helloWorldElement).toBeInTheDocument();
   });
 
-  test("renders Test sample paragraph", () => {
+  test("renders Iniital test when component first initialises", () => {
     render(<Greeting />);
-    const headingElementElement = screen.getByText(/test sample/i);
-    expect(headingElementElement).toBeInTheDocument();
+    const paragraphTextElement = screen.getByText(/Iniital test/i);
+    expect(paragraphTextElement).toBeInTheDocument();
   });
+
+
+  test("renders changed when button is clicked", () => {
+       //Arrange
+    render(<Greeting />);
+
+     //Act
+    const buttonElement = screen.getByRole('button'); // screen.getByText("Change");
+    userEvent.click(buttonElement);
+
+     //Assert
+    const paragraphTextElement = screen.getByText("changed", {exact :false});
+    expect(paragraphTextElement).toBeInTheDocument();
+  });
+
+  test("does not render Iniital test when button is clicked", () => {
+    //Arrange
+    render(<Greeting />);
+
+    //Act
+    const buttonElement = screen.getByText("Change");
+    userEvent.click(buttonElement);
+
+    //Assert
+    const paragraphTextElement = screen.getByText("changed", {exact :false});
+    expect(paragraphTextElement).toBeInTheDocument();
+
+    const notVisibleParagraph = screen.queryByText("Iniital test", {exact :false});
+    expect(notVisibleParagraph).toBeNull();
+});
 });

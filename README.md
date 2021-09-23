@@ -1,1 +1,1 @@
-"# react_unit_testing using jest and react-testing-library" 
+"# react_unit_testing using jest (https://jestjs.io/) and react-testing-library (https://testing-library.com/docs/react-testing-library/intro/) " 
